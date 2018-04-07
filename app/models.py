@@ -395,5 +395,17 @@ class AnonymousUser(AnonymousUserMixin):
     def is_administrator(self):
         return False
 
+class Session(db.Model):
+    __tablename__ = 'sessions'
+    id = db.Column(db.Integer, primary_key=True)
+    sid = db.Column(db.String(255), unique=True)
+    value = db.Column(db.LargeBinary)
+    expiry = db.Column(db.DateTime)
+    def __init__(self, sid, value, expiry):
+        self.sid = sid
+        self.value = value
+        self.expiry = expiry
+    def __repr__(self):
+        return '<Session data %s>' % self.value    
 
 login_manager.anonymous_user = AnonymousUser
